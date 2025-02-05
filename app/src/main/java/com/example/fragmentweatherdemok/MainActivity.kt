@@ -11,10 +11,12 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
 
@@ -37,9 +39,11 @@ class MainActivity : AppCompatActivity() {
         val weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Irkutsk&appid=d6843ab8ee963f5d372296dfff62aed7&units=metric";
         val stream = URL(weatherURL).getContent() as InputStream
         // JSON отдаётся одной строкой,
-        val data = Scanner(stream).nextLine()
+        //val data = Scanner(stream).nextLine()
+        val gson = Gson() // конвеер для (де)сериализации
+        val weather_data: Weather = gson.fromJson(InputStreamReader(stream), Weather::class.java)
         // TODO: предусмотреть обработку ошибок (нет сети, пустой ответ)
-        Log.d("mytag", data)
+        //Log.d("mytag", data)
     }
     public fun onClick(v: View) {
 
